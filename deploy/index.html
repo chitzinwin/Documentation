@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Deployment - Data Lake</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../custom.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Deployment";
+    var mkdocs_page_input_path = "deploy.md";
+    var mkdocs_page_url = "/deploy/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Data Lake</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Cluster Setup</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../nodes/">Nodes Information</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Deployment</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#prerequisites">Prerequisites</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#hostname-binding-sample">Hostname Binding sample</a></li>
+        
+            <li><a class="toctree-l4" href="#ssh-setup">SSH setup</a></li>
+        
+            <li><a class="toctree-l4" href="#privisioning-with">Privisioning with</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Hadoop Architecture</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../hdfs/">HDFS</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../yarn/">YARN</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../hive/">Hive</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../llap/">Hive LLAP</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../tez/">Tez</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../sqoop/">Sqoop</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Data Lake</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Cluster Setup &raquo;</li>
+        
+      
+    
+    <li>Deployment</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="prerequisites">Prerequisites</h2>
+<p><strong>
+ <ul>
+  <li>Hostnames Binding to IPs</li>
+  <li>SSH setup to allow master and slaves communiate without authentication</li>
+  <li>JAVA 8</li>
+</ul> 
+</strong></p>
+<h3 id="hostname-binding-sample">Hostname Binding sample</h3>
+<p>Hosts file location on linux <code>/etc/hosts</code></p>
+<pre><code>148.61.31.2 precision-master
+148.61.31.8 precision-second
+
+148.61.31.134 thinkcenter
+148.61.31.121 optiplex1
+148.61.31.142 optiplex2
+148.61.31.189 optiplex4
+</code></pre>
+
+<h3 id="ssh-setup">SSH setup</h3>
+<p><code>ssh-keygen -t rsa</code> - Generating Key on <strong>Master Node</strong></p>
+<p><code>ssh-copy-id -i $HOME/.ssh/id_rsa.pub uid@slavehostname(or)slaveip</code> - Copy the <strong>master node’s ssh key</strong> to <strong>slave’s authorized keys</strong>. Repeat this for the rest of slaves. </p>
+<p>Login to the individual slave and repeat the process until all the keys are added in permutation -- master-salves, slave-master and slave-slaves.</p>
+<h3 id="privisioning-with">Privisioning with <img alt="" src="https://ambari.apache.org/images/apache-ambari-project.png" /></h3>
+<p><code>wget -O /etc/apt/sources.list.d/ambari.list public-repo-1.hortonworks.com/ambari/ubuntu18/2.x/updates/2.7.3.0/ambari.list</code> - Adding Ambari repository file to <strong>/etc/apt/sources.list.d </strong> </p>
+<p><span style="color:red;font-style:bold;">
+The repository file may require to be updated depend on ambari version and linux distrubtion of the master node. The current one is for ubuntu 18.04 and ambari version is 2.7.3.</span></p>
+<p><code>apt-key adv --recv-keys --keyserver keyserver.ubuntu.com B9733A7A07513CAD</code> - Add the GPG keys of repo to the server</p>
+<p><code>sudo apt install ambari-server</code> - Installing Ambari Server debian-based packages</p>
+<p><code>sudo ambari-server setup</code>- run Ambari Server daemon <strong> as root </strong>.</p>
+<p>Open <code>localhost:8080</code> in browser and follow the wizard to provision the cluster:</p>
+<p>Please refer to Ambari original documentation for the configuration: <a href="https://ambari.apache.org/1.2.1/installing-hadoop-using-ambari/content/ambari-chap3.html">ambari.apache.org</a></p>
+<h4 id="screenshots-from-the-previous-wizard">Screenshots from the previous wizard</h4>
+<p>Service can be added after the provising. Advised to choose core services to keep the deployment simple and also make troubleshoot easy if something happened in mid-way. 
+<img alt="" src="../img/wizard1.png" /></p>
+<h4 id="assigning-masters">Assigning Masters</h4>
+<p>When choosing node for clients applications, consider the Master node if there is no dedicated edge node for them. Co-locating the client applications with services on master can avoid potential problem in slave node because data nodes/node managers are worker nodes those required to process intensively depend on the task assigned by resource manager. </p>
+<p><img alt="" src="../img/wizard2.png" /></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../hdfs/" class="btn btn-neutral float-right" title="HDFS">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../nodes/" class="btn btn-neutral" title="Nodes Information"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../nodes/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../hdfs/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

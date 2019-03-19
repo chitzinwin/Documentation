@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Hive LLAP - Data Lake</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../custom.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Hive LLAP";
+    var mkdocs_page_input_path = "llap.md";
+    var mkdocs_page_url = "/llap/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Data Lake</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Cluster Setup</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../nodes/">Nodes Information</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../deploy/">Deployment</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Hadoop Architecture</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../hdfs/">HDFS</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../yarn/">YARN</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../hive/">Hive</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Hive LLAP</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#live-long-and-process-llap">Live Long And Process (LLAP)</a></li>
+    
+
+    <li class="toctree-l2"><a href="#llap-configuration-in-details">LLAP configuration in details</a></li>
+    
+
+    <li class="toctree-l2"><a href="#llap-daemon-configuration-in-details">LLAP Daemon configuration in details</a></li>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../tez/">Tez</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../sqoop/">Sqoop</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Data Lake</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Hive LLAP</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h3 id="live-long-and-process-llap">Live Long And Process (LLAP)</h3>
+<p>Hive has become significantly faster thanks to various features and improvements that were built by the community in recent years, including Tez and Cost-based-optimization. The following were needed to take Hive to the next level:</p>
+<ul>
+<li>Asynchronous spindle-aware IO</li>
+<li>Pre-fetching and caching of column chunks</li>
+<li>Multi-threaded JIT-friendly operator pipelines</li>
+</ul>
+<p><img alt="" src="https://community.hortonworks.com/storage/attachments/88420-llap2.jpg" /></p>
+<h3 id="llap-configuration-in-details">LLAP configuration in details</h3>
+<p><table><tbody><tr><td>  Component </td><td>  Parameter </td><td>  Conf Section of Hive</td><td>  Rule and comments </td></tr><tr><td>SliderSize</td><td>slider_am_container_mb</td><td>hive-interactive-env</td><td>=yarn.scheduler.minimum-allocation-mb</td></tr><tr><td>Tez AM coordinator Size </td><td>tez.am.resource.memory.mb</td><td>tez-interactive-site</td><td>=yarn.scheduler.minimum-allocation-mb</td></tr><tr><td>Number of Cordinators </td><td>hive.server2.tez.sessions.per.default.queue</td><td>Settings</td><td>Number of Concurrent Queries LLAP support.<br>
+This will result in spawning equal number of TEZ AM. </td></tr><tr><td>
+<p>LLAP DaemonSize</p></td><td>hive.llap.daemon.yarn.container.mb</td><td>hive-interactive-site</td><td>yarn.scheduler.minimum-allocation-mb &lt;= Daemon Size &lt;= yarn.scheduler.maximu-allocation-mb.<br>
+<br>
+Rule of thumb always set it to yarn.scheduler.maximu-allocation-mb.
+</td></tr><tr><td>
+<p>Number of Daemon </p></td><td>num_llap_nodes_for_llap_daemons</td><td>hive-interactive-env</td><td>Number of LLAP Daemons running </td></tr><tr><td>Number of Daemons </td><td>num_llap_nodes_for_llap_daemons</td><td>hive-interactive-env</td><td>Number of LLAP Daemons running. This will determine total Cache and
+executors available to run any query on LLAP </td></tr><tr><td>ExecutorSize</td><td>hive.tez.container.size</td><td>hive-interactive-site</td><td>4 – 6 GB is the recommended value. For each executor you need to
+allocate one VCPU</td></tr><tr><td>Number of Executor </td><td>hive.llap.daemon.num.executors</td><td></td><td>Determined by number of “Maximum VCore in YARN”</td></tr></tbody></table>
+<br></p>
+<h3 id="llap-daemon-configuration-in-details">LLAP Daemon configuration in details</h3>
+<p><table><tbody><tr><td> Component </td><td>PARAMETER NAME </td><td>SECTION </td><td>Rule and comments </td></tr><tr><td>Maximum YARN container Size </td><td>yarn.scheduler.maximu-allocation-mb.</td><td>YARN settings </td><td>This is the maximum amount of memory a Conatiner can be allocated
+with.Its Recommended to RUN LLAP
+daemon as a big Container on a node </td></tr><tr><td>DaemonSize</td><td>hive.llap.daemon.yarn.container.mb</td><td>hive-interactive-site</td><td>yarn.scheduler.minimum-allocation-mb &lt;= Daemon Size &lt;= yarn.scheduler.maximu-allocation-mb.<br>
+<br>
+Rule of thumb always set it to yarn.scheduler.maximu-allocation-mb.
+</td></tr><tr><td>
+<p>Headroom</p></td><td>llap_headroom_space</td><td>hive-interactive-env</td><td>MIN (5% of DaemonSize or 6 GB). Its off heap But part of LLAP Daemon </td></tr><tr><td>HeapSize</td><td>llap_heap_size</td><td>hive-interactive-env</td><td>Number of Executor * hive.tez.container.size</td></tr><tr><td>Cache Size </td><td>hive.llap.io.memory.size</td><td>hive-interactive-site</td><td>DaemonSize - HeapSize – Headroom. Its off heap but part of LLAP
+daemon </td></tr><tr><td>LLAP Queue Size</td><td></td><td></td><td> Slider Am Size + Number of Tez
+Conatiners * hive.tez.container.size + 
+Size of LLAP Daemon * Number of LLAP Daemons </td></tr></tbody></table></p>
+<p>For more information in-depth on the components of LLAP, <a href="https://cwiki.apache.org/confluence/display/Hive/LLAP#LLAP-Overview">Original Document on HIVE LLAP</a></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../tez/" class="btn btn-neutral float-right" title="Tez">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../hive/" class="btn btn-neutral" title="Hive"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../hive/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../tez/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

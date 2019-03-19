@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Hive - Data Lake</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../custom.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Hive";
+    var mkdocs_page_input_path = "hive.md";
+    var mkdocs_page_url = "/hive/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Data Lake</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Cluster Setup</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../nodes/">Nodes Information</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../deploy/">Deployment</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Hadoop Architecture</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../hdfs/">HDFS</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../yarn/">YARN</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Hive</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#overview">Overview</a></li>
+    
+
+    <li class="toctree-l2"><a href="#architecture">Architecture</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#role-of-metastore">Role of Metastore</a></li>
+        
+            <li><a class="toctree-l3" href="#configuration">Configuration</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#using-hive">Using Hive</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#connecting-hive-from-r">Connecting Hive from R</a></li>
+        
+            <li><a class="toctree-l3" href="#connecting-hive-from-python">Connecting Hive from Python</a></li>
+        
+            <li><a class="toctree-l3" href="#partitioning-in-hive">Partitioning in Hive</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../llap/">Hive LLAP</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../tez/">Tez</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../sqoop/">Sqoop</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Data Lake</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Hive</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><img alt="hivelogo" src="../img/hivelogo.jpg" /></p>
+<h2 id="overview">Overview</h2>
+<p>Apache Hive is a data warehouse framework for querying and managing large datasets stored in Hadoop distributed filesystems (HDFS).</p>
+<p>Hive uses its own dialect of SQL called HQL. However, it supports commonly use SQL statement. The interchangeability between SQL and HQL  in <a href="http://hortonworks.com/wp-content/uploads/2016/05/Hortonworks.CheatSheet.SQLtoHive.pdf">this pdf</a>.</p>
+<h2 id="architecture">Architecture</h2>
+<ul>
+<li>Hive stores in data in HDFS and in Table format.</li>
+<li>Metadata for a Hive table is stored in embedded database (default - Derby). Postgre, Mysql &amp; Oracle are supported as well. </li>
+</ul>
+<p><center> <img src="https://media.springernature.com/lw785/springer-static/image/chp%3A10.1007%2F978-1-4842-2199-0_3/MediaObjects/429285_1_En_3_Fig1_HTML.jpg"></center></p>
+<h3 id="role-of-metastore">Role of Metastore</h3>
+<p>The mapping of tables to their directory locations in HDFS and the columns and their definitions are maintained in the Hive metastore.</p>
+<p>The metastore is a relational database (somewhat ironic) that is written to and read by the Hive client.</p>
+<p><center><img src="https://learning.oreilly.com/library/view/sams-teach-yourself/9780134456737/graphics/10fig02.jpg"></center></p>
+<p>The object definitions also include the input and output formats for the files represented by the table objects (for example, CSVInputFormat, and so on) and SerDes (short for Serialization/Deserialization functions), which instruct Hive how to extract records and fields from the files.</p>
+<p><br></p>
+<h3 id="configuration">Configuration</h3>
+<p><d>
+<p>Minimum Configuration Properties for the hive-site.xml File</p>
+<table><colgroup><col class="tcol1"><col class="tcol2"><col class="tcol3"></colgroup><thead><tr><th> <p class="SimplePara">Property</p> </th><th> <p class="SimplePara">Description</p> </th><th> <p class="SimplePara">Value</p> </th></tr></thead><tbody><tr><td> <p class="SimplePara"> <span class="EmphasisFontCategoryNonProportional ">hive.metastore.warehouse.dir</span> </p> </td><td> <p class="SimplePara">The HDFS directory in which the Hive table data is stored.</p> </td><td> <p class="SimplePara"> <span class="EmphasisFontCategoryNonProportional ">hdfs://hdfsnamnode:8020/user/hive/warehouse</span> </p> </td></tr><tr><td> <p class="SimplePara"> <span class="EmphasisFontCategoryNonProportional ">hive.metastore.uris</span> </p> </td><td> <p class="SimplePara">The URI for clients to access the Hive metastore.</p> </td><td> <p class="SimplePara"> <span class="EmphasisFontCategoryNonProportional ">thrift://hostname:10000</span> </p> </td></tr></tbody></table>
+For more details, refer to the Apache Hive documentation at <a href="http://hive.apache.org/">http://hive.apache.org/</a>.
+</d>
+</br>
+<br></p>
+<h2 id="using-hive">Using Hive</h2>
+<p>There are two ways to access Hive:</p>
+<ol>
+<li>Hive Command Line: An interface used to execute HiveQL</li>
+<li>JDBC (Java DataBase Connectivity)/ODBC (Object DataBase Connectivity) driver: This is to establish connectivity to the data storage</li>
+</ol>
+<p><b> Apache Hive is not a suitable candidate for OnLine Transaction Processing (OLTP), rather it is more suited for warehousing capabilities (OLAP--OnLine Analytical Processing). It is, however, capable of handling huge datasets of the scale of petabytes quite easily. </b>
+<br><br></p>
+<h3 id="connecting-hive-from-r">Connecting Hive from R</h3>
+<p>Connecting to Hive is not as straightforward as MySql and Postgre. As of writing this documentation, <a href="https://db.rstudio.com/databases/hive/"> the drivers in odbc package from CRAN  </a> only supported Hadoop vendors(Cloudera, Hortonworks, MapR, etc.). </p>
+<p>The workaround to connect non-vendor oriented infrastructure is using JDBC (Java Database Cpmmectivity) wrapper package for R called "<b>RJDBC</b>" and low-level interface to Java VM called "<b>rJava</b>".</p>
+<p>Obtaining the <code>hive-jdbc-standalone.jar</code> <b>(for your specific version)</b> from <a href="http://central.maven.org/maven2/org/apache/hive/hive-jdbc/">Maven repository</a>.</p>
+<p>Code below shows the driver creation and connnecting to Hive using driver:</p>
+<pre><code>library(rJava)
+library(RJDBC)
+
+cp=c(&quot;hive-jdbc-3.1.0-standalone.jar&quot;)
+.jinit(classpath=cp)            #adding driver to the Java Classpath to be available in system environment variable
+
+
+drv &lt;- JDBC(&quot;org.apache.hive.jdbc.HiveDriver&quot;,
+            &quot;hive-jdbc-3.1.0-standalone.jar&quot;,
+            identifier.quote=&quot;`&quot;)
+conn &lt;- dbConnect(drv, &quot;jdbc:hive2://precision-master:10000/default&quot;, &quot;hadoop&quot;, &quot;&quot;)
+
+df = dbGetQuery(conn, &quot;select * from gdelt limit 1000&quot;)
+ # the response data is the standard data frame of R 
+
+</code></pre>
+
+<p>To download the above script in R file <a href="../Connecting_Hive_from-R.R">link</a></p>
+<h3 id="connecting-hive-from-python">Connecting Hive from Python</h3>
+<p>Similarly the connection from Python to Hive also required a wrapper to use JDBC in Python.</p>
+<ul>
+<li>To install <a href="https://pypi.org/project/JayDeBeApi/">Python JDBC wrapper</a>, execute the pip command - <code>pip install JayDeBeApi</code></li>
+<li>Python code to establish connection to Hive and querying</li>
+</ul>
+<pre><code>import jaydebeapi
+
+#con = jaydebeapi.connect('org.apache.hive.jdbc.HiveDriver','jdbc_url, ['username','password'], &quot;path_to_driver.jar&quot;,)
+con = jaydebeapi.connect('org.apache.hive.jdbc.HiveDriver','jdbc:hive2://localhost:10000/default',['hadoop',''], &quot;/home/winc/hive-jdbc-3.1.0-standalone.jar&quot;,)
+
+cur = con.cursor()
+
+cur.execute(&quot;select * from gdelt limit 100&quot;)
+
+cur.fetchall()
+</code></pre>
+
+<p>To download the above script in Py Notebook file <a href="../Connecting_Hive.ipynb">link</a>
+</br></p>
+<h3 id="partitioning-in-hive">Partitioning in Hive</h3>
+<p>The basic idea of partitioning in Hive is to maintain the efficiency of the query as the data grows in a table. By partitioning, the table is divided into sequence of subdirectories based upon one or more conditions that typically would be used in <b><i>WHERE</i></b> clauses for the table. </p>
+<p>The column or variable that used to create partitions is not required to include in table stable. Instead, the column becomes a pseudocolumn and used in <code>partitioned by (column string)</code> statement follows at the end of table variables list as shown in below code. </p>
+<pre><code>CREATE TABLE weblogs (
+     ip STRING,
+     time_local STRING,
+     method STRING,
+     uri STRING,
+     protocol STRING,
+     status STRING,
+     bytes_sent STRING,
+     referer STRING,
+     useragent STRING)
+     PARTITIONED BY (date STRING)
+</code></pre>
+
+<h4 id="loading-partition-statically-to-existing-partitioned-table">Loading partition statically to existing partitioned table</h4>
+<pre><code>LOAD DATA LOCAL INPATH 'pathto/file.txt'
+      INTO TABLE weblogs
+      PARTITION (date='3/1/2019');
+</code></pre>
+
+<h4 id="dynamic-partitioning">Dynamic partitioning</h4>
+<p>Instead of loading each partition with single SQL statement as shown above, which will result in writing lot of SQL statements for each value of partition key. Hive supports dynamic partitioning with which we can add any number of partitions with single SQL execution. Although dynamic partition loading does not require for partition keys, it needs an intermediary table.  The following HQL statement will provide the idea of how dynamic partitioning works:</p>
+<pre><code>CREATE TEMPORARY TABLE temp_weblogs (
+     ip STRING,
+     time_local STRING,
+     method STRING,
+     uri STRING,
+     protocol STRING,
+     status STRING,
+     bytes_sent STRING,
+     referer STRING,
+     useragent STRING,
+     date STRING)
+     ROW FORMAT DELIMITED 
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    STORED AS TEXTFILE;
+    LOCATION &quot;/pathtofileonHDFS&quot;
+</code></pre>
+
+<p>The above code is similar to DDL of traditional SQL. The only extension to it is the Hive specific statements for the delimiters of raw data records, fields, location, and file type. </p>
+<p>After the raw data is query-able from temporary, the create table statement is with one additional HiveQL <code>STORED AS SEQUENCEFILE</code> to automatically create the partition for each value of the partition key.   </p>
+<pre><code>CREATE TABLE partitioned_weblogs (
+     ip STRING,
+     time_local STRING,
+     method STRING,
+     uri STRING,
+     protocol STRING,
+     status STRING,
+     bytes_sent STRING,
+     referer STRING,
+     useragent STRING)
+     PARTITIONED BY (date STRING)
+     STORED AS SEQUENCEFILE;
+</code></pre>
+
+<p>At this point, all the requirements for dynamic partitioning are met and ready for the final process.</p>
+<pre><code>INSERT INTO table partitioned_weblogs
+    PARTITION(date)
+    select ip,
+     time_local,
+     method,
+     uri,
+     protocol,
+     status,
+     bytes_sent,
+     referer,
+     useragent,
+     date)
+     FROM temp_weblogs
+</code></pre>
+
+<p><font color="red"><b>"One last caveat for the above statement is to include the partition column(s) as the last column(s) (date) in the insert query".</b></font></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../llap/" class="btn btn-neutral float-right" title="Hive LLAP">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../yarn/" class="btn btn-neutral" title="YARN"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../yarn/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../llap/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
